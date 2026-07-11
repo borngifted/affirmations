@@ -115,6 +115,21 @@ const player = {
   startedAt: 0, /* ctx.currentTime when offset 0 would have started */
   on: false,
   loading: false,
+  healOsc: null,
+
+  /* 528 Hz solfeggio sine blended far beneath the song */
+  startHealingTone() {
+    if (this.healOsc) return;
+    const osc = this.ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.value = 528;
+    const g = this.ctx.createGain();
+    g.gain.value = 0.012;
+    osc.connect(g);
+    g.connect(this.ctx.destination);
+    osc.start();
+    this.healOsc = osc;
+  },
 
   async ensureBuffer() {
     if (this.buffer || this.loading) return;
@@ -186,7 +201,10 @@ soundToggle.addEventListener("click", async () => {
       const buffering = player.ensureBuffer(); /* don't gate the fetch on resume() */
       await player.ctx.resume();
       await buffering;
-      if (player.on) player.playAt(chapterStart(Math.max(activeSeg, 0)));
+      if (player.on) {
+        player.startHealingTone();
+        player.playAt(chapterStart(Math.max(activeSeg, 0)));
+      }
     } else if (player.ctx) {
       await player.ctx.suspend();
     }
