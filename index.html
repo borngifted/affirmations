@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Affirm' — Spoken by Hand</title>
+<meta name="description" content="Six affirmations, signed by hand. Scroll to let two gloved hands speak without sound.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&%23129306;</text></svg>">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="wordmark" href="#top" aria-label="Affirm — home">Affirm&rsquo;</a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="#hands"><span class="slash">\</span>HANDS</a>
+    <a href="#statement"><span class="slash">\</span>ABOUT</a>
+    <a href="#footer"><span class="slash">\</span>CONTACT</a>
+  </nav>
+  <div class="clock" aria-hidden="true">
+    <span id="clock-time">00:00</span>
+    <span id="clock-zone">GMT</span>
+    <span class="clock-state">SPEAKING BY HAND</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Pinned scroll-scrub hero -->
+  <section class="scrub" id="hands" aria-label="Two gloved hands signing affirmations as you scroll">
+    <div class="scrub-sticky">
+      <canvas id="hands-canvas"></canvas>
+      <div class="scrub-ui">
+        <p class="scrub-kicker"><span class="slash">\</span>SPOKEN BY HAND</p>
+        <h1 class="scrub-quote" id="scrub-quote" aria-live="polite"></h1>
+        <p class="scrub-index"><span id="scrub-num">01</span>&nbsp;/&nbsp;06</p>
+      </div>
+      <div class="scrub-hint" id="scrub-hint">
+        <span class="slash">\</span>SCROLL
+      </div>
+      <div class="scrub-loader" id="scrub-loader">
+        <span class="slash">\</span><span id="loader-pct">0%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Editorial statement -->
+  <section class="statement" id="statement">
+    <p class="section-label"><span class="slash">\</span>ABOUT</p>
+    <h2 class="statement-lines">
+      <span class="line">WHAT I AFFIRM</span>
+      <span class="line line-italic">I BECOME</span>
+    </h2>
+    <p class="statement-body reveal-words">Six affirmations, signed in silence. Two hands in crystal gloves speak a language the ear cannot hear — scroll, and let them say what you already know is true. The signing is expressive gesture, a love letter to sign language rather than literal ASL.</p>
+  </section>
+
+  <!-- Affirmation index marquee -->
+  <section class="index" aria-label="All affirmations">
+    <p class="section-label"><span class="slash">\</span>THE AFFIRMATIONS</p>
+    <div class="marquee" id="marquee">
+      <div class="marquee-track" id="marquee-track"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="footer">
+  <p class="footer-mark">Affirm&rsquo;</p>
+  <div class="footer-cols">
+    <div>
+      <p class="footer-label">&copy; 2026. All Rights Reserved</p>
+    </div>
+    <div>
+      <p class="footer-label">Say It Back</p>
+      <a class="footer-link" href="mailto:digi2uai@gmail.com">digi2uai@gmail.com</a>
+    </div>
+    <div>
+      <p class="footer-label">Elsewhere</p>
+      <a class="footer-link" href="https://github.com/borngifted" rel="noopener">GitHub</a>
+    </div>
+    <div>
+      <p class="footer-label">Hands by</p>
+      <p class="footer-link">Higgsfield &times; Claude</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js" defer></script>
+</body>
+</html>
