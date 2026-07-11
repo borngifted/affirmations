@@ -4,12 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Affirm' — Spoken by Hand</title>
-<meta name="description" content="Six affirmations, signed by hand. Scroll to let two gloved hands speak without sound.">
+<meta name="description" content="Fifty affirmations, signed by hand. Scroll to let two gloved hands speak without sound — or turn the sound on.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&%23129306;</text></svg>">
+<script>
+/* apply saved theme before first paint to avoid a flash */
+(function () {
+  var t = localStorage.getItem("affirm-theme");
+  if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.dataset.theme = t;
+})();
+</script>
 </head>
 <body>
 
@@ -19,6 +27,12 @@
     <a href="#hands"><span class="slash">\</span>HANDS</a>
     <a href="#statement"><span class="slash">\</span>ABOUT</a>
     <a href="#footer"><span class="slash">\</span>CONTACT</a>
+    <button class="ui-toggle" id="sound-toggle" aria-pressed="false">
+      <span class="slash">\</span><span id="sound-label">SOUND OFF</span>
+    </button>
+    <button class="ui-toggle" id="theme-toggle">
+      <span class="slash">\</span><span id="theme-label">DARK</span>
+    </button>
   </nav>
   <div class="clock" aria-hidden="true">
     <span id="clock-time">00:00</span>
@@ -30,13 +44,13 @@
 <main id="top">
 
   <!-- Pinned scroll-scrub hero -->
-  <section class="scrub" id="hands" aria-label="Two gloved hands signing affirmations as you scroll">
+  <section class="scrub" id="hands" aria-label="Two gloved hands signing fifty affirmations as you scroll">
     <div class="scrub-sticky">
       <canvas id="hands-canvas"></canvas>
       <div class="scrub-ui">
         <p class="scrub-kicker"><span class="slash">\</span>SPOKEN BY HAND</p>
         <h1 class="scrub-quote" id="scrub-quote" aria-live="polite"></h1>
-        <p class="scrub-index"><span id="scrub-num">01</span>&nbsp;/&nbsp;06</p>
+        <p class="scrub-index"><span id="scrub-num">01</span>&nbsp;/&nbsp;50</p>
       </div>
       <div class="scrub-hint" id="scrub-hint">
         <span class="slash">\</span>SCROLL
@@ -54,7 +68,7 @@
       <span class="line">WHAT I AFFIRM</span>
       <span class="line line-italic">I BECOME</span>
     </h2>
-    <p class="statement-body reveal-words">Six affirmations, signed in silence. Two hands in crystal gloves speak a language the ear cannot hear — scroll, and let them say what you already know is true. The signing is expressive gesture, a love letter to sign language rather than literal ASL.</p>
+    <p class="statement-body reveal-words">Fifty affirmations, signed in silence or set to song. Two hands in crystal gloves speak a language the ear cannot hear — scroll, and let them say what you already know is true. The signing is expressive gesture, a love letter to sign language rather than literal ASL.</p>
   </section>
 
   <!-- Affirmation index marquee -->
@@ -82,7 +96,7 @@
       <a class="footer-link" href="https://github.com/borngifted" rel="noopener">GitHub</a>
     </div>
     <div>
-      <p class="footer-label">Hands by</p>
+      <p class="footer-label">Hands &amp; Song by</p>
       <p class="footer-link">Higgsfield &times; Claude</p>
     </div>
   </div>
