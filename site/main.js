@@ -136,10 +136,26 @@ function draw(idx) {
   const cw = canvas.width, ch = canvas.height;
   ctx.fillStyle = "#F5F5F3";
   ctx.fillRect(0, 0, cw, ch);
-  /* contain-fit, anchored slightly low — hands rise from the bottom */
-  const s = Math.min(cw / img.width, ch / img.height);
+  /* contain-fit scaled down, anchored to the bottom edge — the cuffs stay
+     connected to the frame bottom and the hands rise from below */
+  const s = Math.min(cw / img.width, ch / img.height) * 0.82;
   const w = img.width * s, h = img.height * s;
-  ctx.drawImage(img, (cw - w) / 2, ch - h - (ch - h) * 0.35, w, h);
+  const x = (cw - w) / 2, y = ch - h;
+  ctx.drawImage(img, x, y, w, h);
+
+  /* feather the image edges into the paper so the video's slightly warmer
+     background never reads as a rectangle */
+  const F = Math.round(Math.min(w, h) * 0.18);
+  const paper = (a) => `rgba(245,245,243,${a})`;
+  let g = ctx.createLinearGradient(0, y, 0, y + F);
+  g.addColorStop(0, paper(1)); g.addColorStop(1, paper(0));
+  ctx.fillStyle = g; ctx.fillRect(x - 1, y, w + 2, F);
+  g = ctx.createLinearGradient(x, 0, x + F, 0);
+  g.addColorStop(0, paper(1)); g.addColorStop(1, paper(0));
+  ctx.fillStyle = g; ctx.fillRect(x, y - 1, F, h + 2);
+  g = ctx.createLinearGradient(x + w, 0, x + w - F, 0);
+  g.addColorStop(0, paper(1)); g.addColorStop(1, paper(0));
+  ctx.fillStyle = g; ctx.fillRect(x + w - F, y - 1, F, h + 2);
   drawnIndex = idx;
 }
 

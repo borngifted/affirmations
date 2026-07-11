@@ -120,9 +120,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   text-align: center;
-  padding: 0 var(--pad) clamp(2.5rem, 7vh, 5rem);
+  padding: clamp(4.5rem, 12vh, 8rem) var(--pad) 0;
   pointer-events: none;
 }
 
