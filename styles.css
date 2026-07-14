@@ -343,6 +343,59 @@ body {
 
 a.footer-link:hover, a.footer-link:focus-visible { text-decoration: underline; }
 
+/* ---------- hands: webcam preview card ---------- */
+
+.hands-card {
+  position: fixed;
+  bottom: 1.2rem;
+  right: var(--pad);
+  z-index: 90; /* under the fixed header, over everything else */
+  width: 176px;
+  padding: 0.5rem;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  transition: background-color 300ms ease;
+}
+
+.hands-view {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--ink-soft);
+}
+
+.hands-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* mirrored, like looking in a mirror */
+  display: block;
+}
+
+.hands-dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hands-status {
+  margin-top: 0.45rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+}
+
+.hands-error .hands-status { color: var(--ink); }
+
+/* desktop only — same breakpoint as the mobile frame set */
+@media (max-width: 720px) {
+  #hands-toggle, .hands-card { display: none; }
+}
+
 /* ---------- accessibility ---------- */
 
 :focus-visible {
