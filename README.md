@@ -24,7 +24,12 @@ pinned scroll-scrubbed hero — with a light/dark theme toggle.
   active chapter.
 - Dark mode inverts the stage (black gloves on near-black paper) via a canvas
   `invert(1)` filter and CSS variables; the choice persists in localStorage.
-- Static site, no build step: `site/index.html`, `site/styles.css`, `site/main.js`.
+- Optional `\ HANDS` mode (desktop): MediaPipe HandLandmarker, lazy-loaded on
+  first toggle, lets your hand height conduct the signing on top of scroll —
+  all webcam processing happens locally in your browser; no video ever leaves
+  your machine.
+- Static site, no build step: `site/index.html`, `site/styles.css`,
+  `site/main.js`, `site/hands.js`.
 
 ## Develop
 

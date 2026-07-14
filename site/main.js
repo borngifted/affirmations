@@ -213,6 +213,54 @@ soundToggle.addEventListener("click", async () => {
   }
 });
 
+/* ---------- hands: webcam conducting ----------
+   All tracking code lives in hands.js, dynamically imported on first
+   toggle-on so visitors who never enable it pay zero cost. */
+
+const handsToggle = document.getElementById("hands-toggle");
+const handsLabel = document.getElementById("hands-label");
+let hands = null;
+let handsBusy = false;
+
+function setHandsUI(on) {
+  handsToggle.setAttribute("aria-pressed", String(on));
+  handsLabel.textContent = on ? "HANDS ON" : "HANDS OFF";
+}
+
+handsToggle.addEventListener("click", async () => {
+  if (handsBusy) return;
+  const turningOn = handsToggle.getAttribute("aria-pressed") !== "true";
+  if (!turningOn) {
+    setHandsUI(false);
+    hands?.disable();
+    setHandOffset(0);
+    return;
+  }
+  handsBusy = true;
+  setHandsUI(true);
+  try {
+    if (!hands) {
+      const mod = await import("./hands.js");
+      hands = mod.createHands({
+        maxOffsetFrames: CLIPS[0].count, /* ±1 clip ≈ ±4 affirmations */
+        reducedMotion,
+        setOffset: setHandOffset,
+        onFail: () => {
+          setHandsUI(false);
+          setHandOffset(0);
+        },
+      });
+    }
+    await hands.enable();
+  } catch (e) {
+    console.warn("Affirm: hands failed —", e.name || "", e.message || e);
+    setHandsUI(false);
+    setHandOffset(0);
+  } finally {
+    handsBusy = false;
+  }
+});
+
 /* ---------- clock ---------- */
 {
   const timeEl = document.getElementById("clock-time");
@@ -380,19 +428,34 @@ function updateWords(within) {
 
 /* ---------- scroll wiring ---------- */
 
-function onScroll() {
-  const rect = scrubSection.getBoundingClientRect();
-  const runway = rect.height - innerHeight;
-  const p = Math.min(1, Math.max(0, -rect.top / runway));
-  target = p * (totalFrames - 1);
+let scrollFrames = 0; /* frame position implied by scroll alone */
+let handOffset = 0; /* frames pushed by the hands module, ±1 clip */
 
+/* single source of truth: scroll + hand offset → target frame, and the
+   quote / word-reveal / chapter-seek all follow that same number */
+function updateTarget() {
+  target = Math.min(totalFrames - 1, Math.max(0, scrollFrames + handOffset));
+  const p = target / (totalFrames - 1);
   const segF = Math.min(0.999999, p) * N_QUOTES;
   const seg = Math.floor(segF);
   setSegment(seg);
   updateWords(segF - seg);
-
-  hintEl.style.opacity = p > 0.005 ? "0" : "1";
   requestDraw();
+}
+
+function setHandOffset(frames) {
+  if (frames === handOffset) return;
+  handOffset = frames;
+  updateTarget();
+}
+
+function onScroll() {
+  const rect = scrubSection.getBoundingClientRect();
+  const runway = rect.height - innerHeight;
+  const p = Math.min(1, Math.max(0, -rect.top / runway));
+  scrollFrames = p * (totalFrames - 1);
+  hintEl.style.opacity = p > 0.005 ? "0" : "1";
+  updateTarget();
 }
 addEventListener("scroll", onScroll, { passive: true });
 
